@@ -301,29 +301,69 @@
   }
   .section-head p{ color:var(--ink-soft); margin-top:12px; font-size:1rem; }
 
-  .coverage-list{ border-top:1px solid var(--line); }
-  .coverage-item{
+  .coverage-grid{
     display:grid;
-    grid-template-columns:56px 1fr;
-    gap:24px;
-    padding:30px 0;
-    border-bottom:1px solid var(--line);
-    align-items:flex-start;
+    grid-template-columns:repeat(4, 1fr);
+    gap:20px;
   }
-  @media (max-width:640px){ .coverage-item{ grid-template-columns:40px 1fr; gap:16px; } }
-  .coverage-emoji{
-    font-size:2.1rem;
-    line-height:1;
-    width:56px;
+  @media (max-width:860px){ .coverage-grid{ grid-template-columns:repeat(2, 1fr); } }
+  @media (max-width:480px){ .coverage-grid{ grid-template-columns:1fr; } }
+
+  .coverage-card{
+    position:relative;
+    height:220px;
+    perspective:1400px;
+    outline:none;
+  }
+  .coverage-card-inner{
+    position:relative;
+    width:100%;
+    height:100%;
+    transition:transform .55s cubic-bezier(.4,.2,.2,1);
+    transform-style:preserve-3d;
+  }
+  @media (hover:hover) and (pointer:fine){
+    .coverage-card:hover .coverage-card-inner{ transform:rotateY(180deg); }
+  }
+  .coverage-card.flipped .coverage-card-inner{ transform:rotateY(180deg); }
+  .coverage-card:focus-visible .coverage-card-inner{ transform:rotateY(180deg); }
+
+  .coverage-card-front, .coverage-card-back{
+    position:absolute;
+    inset:0;
+    backface-visibility:hidden;
+    -webkit-backface-visibility:hidden;
+    border:1px solid var(--line);
+    padding:24px;
+    display:flex;
+    flex-direction:column;
+  }
+  .coverage-card-front{
+    background:var(--paper-card);
+    align-items:center;
+    justify-content:center;
     text-align:center;
+    gap:12px;
   }
-  .coverage-item h3{
-    font-family:var(--display);
-    font-weight:500;
-    font-size:1.25rem;
-    margin-bottom:6px;
+  .coverage-card-front .coverage-emoji{ font-size:2.6rem; line-height:1; }
+  .coverage-card-front h3{ font-family:var(--display); font-weight:500; font-size:1.2rem; }
+  .coverage-card-front .tap-hint{
+    font-size:0.72rem;
+    color:var(--ink-soft);
+    letter-spacing:0.03em;
   }
-  .coverage-item p{ color:var(--ink-soft); font-size:0.96rem; max-width:56ch; }
+  @media (hover:hover) and (pointer:fine){
+    .coverage-card-front .tap-hint{ display:none; }
+  }
+  .coverage-card-back{
+    background:var(--navy);
+    color:#EDEFEA;
+    transform:rotateY(180deg);
+    justify-content:center;
+    gap:8px;
+  }
+  .coverage-card-back h3{ font-family:var(--display); font-weight:500; font-size:1.1rem; color:#EDEFEA; }
+  .coverage-card-back p{ font-size:0.9rem; color:#C7D0DC; line-height:1.55; }
 
   /* ---------- COMPANIES ---------- */
   .companies{
@@ -594,36 +634,60 @@
       <p>Me especializo en proteger lo que más te cuesta reponer. Elijo entre distintas compañías la combinación de cobertura y prima que mejor te cierra.</p>
     </div>
 
-    <div class="coverage-list">
-      <div class="coverage-item">
-        <div class="coverage-emoji" aria-hidden="true">🚗</div>
-        <div>
-          <h3>Auto</h3>
-          <p>Responsabilidad civil, terceros completo o todo riesgo, con o sin franquicia, según el uso que le des al auto.</p>
+    <div class="coverage-grid" id="coverageGrid">
+      <div class="coverage-card" tabindex="0" role="button" aria-label="Ver detalle de la cobertura">
+        <div class="coverage-card-inner">
+          <div class="coverage-card-front">
+            <div class="coverage-emoji" aria-hidden="true">🚗</div>
+            <h3>Auto</h3>
+            <span class="tap-hint">Tocá para ver más</span>
+          </div>
+          <div class="coverage-card-back">
+            <h3>Auto</h3>
+            <p>Responsabilidad civil, terceros completo o todo riesgo, con o sin franquicia, según el uso que le des al auto.</p>
+          </div>
         </div>
       </div>
 
-      <div class="coverage-item">
-        <div class="coverage-emoji" aria-hidden="true">🏍️</div>
-        <div>
-          <h3>Moto</h3>
-          <p>Pólizas pensadas para el riesgo específico de las dos ruedas: robo, incendio y responsabilidad civil hacia terceros.</p>
+      <div class="coverage-card" tabindex="0" role="button" aria-label="Ver detalle de la cobertura">
+        <div class="coverage-card-inner">
+          <div class="coverage-card-front">
+            <div class="coverage-emoji" aria-hidden="true">🏍️</div>
+            <h3>Moto</h3>
+            <span class="tap-hint">Tocá para ver más</span>
+          </div>
+          <div class="coverage-card-back">
+            <h3>Moto</h3>
+            <p>Pólizas pensadas para el riesgo específico de las dos ruedas: robo, incendio y responsabilidad civil hacia terceros.</p>
+          </div>
         </div>
       </div>
 
-      <div class="coverage-item">
-        <div class="coverage-emoji" aria-hidden="true">🏬</div>
-        <div>
-          <h3>Comercio</h3>
-          <p>Cobertura integral para tu local: incendio, robo, responsabilidad civil y contenido, ajustada a los metros cuadrados y al rubro.</p>
+      <div class="coverage-card" tabindex="0" role="button" aria-label="Ver detalle de la cobertura">
+        <div class="coverage-card-inner">
+          <div class="coverage-card-front">
+            <div class="coverage-emoji" aria-hidden="true">🏬</div>
+            <h3>Comercio</h3>
+            <span class="tap-hint">Tocá para ver más</span>
+          </div>
+          <div class="coverage-card-back">
+            <h3>Comercio</h3>
+            <p>Cobertura integral para tu local: incendio, robo, responsabilidad civil y contenido, ajustada a los metros cuadrados y al rubro.</p>
+          </div>
         </div>
       </div>
 
-      <div class="coverage-item">
-        <div class="coverage-emoji" aria-hidden="true">🏠</div>
-        <div>
-          <h3>Hogar</h3>
-          <p>Protección para tu casa y todo lo de adentro: incendio, robo, daños por agua y responsabilidad civil frente a terceros.</p>
+      <div class="coverage-card" tabindex="0" role="button" aria-label="Ver detalle de la cobertura">
+        <div class="coverage-card-inner">
+          <div class="coverage-card-front">
+            <div class="coverage-emoji" aria-hidden="true">🏠</div>
+            <h3>Hogar</h3>
+            <span class="tap-hint">Tocá para ver más</span>
+          </div>
+          <div class="coverage-card-back">
+            <h3>Hogar</h3>
+            <p>Protección para tu casa y todo lo de adentro: incendio, robo, daños por agua y responsabilidad civil frente a terceros.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -747,6 +811,25 @@
 
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
+
+  // ---- Coverage cards: tap-to-flip on touch devices ----
+  const isTouchDevice = !window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const coverageCards = document.querySelectorAll('.coverage-card');
+  coverageCards.forEach(card => {
+    card.addEventListener('click', () => {
+      if (isTouchDevice) {
+        const willFlip = !card.classList.contains('flipped');
+        coverageCards.forEach(c => c.classList.remove('flipped'));
+        if (willFlip) card.classList.add('flipped');
+      }
+    });
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        card.classList.toggle('flipped');
+      }
+    });
+  });
 
   // ---- Dark mode ----
   const themeToggle = document.getElementById('themeToggle');
