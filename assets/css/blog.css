@@ -181,3 +181,27 @@ footer a:hover{ color:#EDEFEA; }
 .wa-link{ display:inline-flex; align-items:center; gap:8px; color:#EDEFEA !important; font-weight:600; }
 .footer-legal{ font-size:0.78rem; color:#8C9AB0; line-height:1.7; max-width:76ch; }
 .footer-legal a{ color:#A9B7C8; text-decoration:underline; }
+
+/* ---------- WHATSAPP FLOAT ---------- */
+.wa-float{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  z-index:300;
+  width:58px;
+  height:58px;
+  border-radius:50%;
+  background:#25D366;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 10px 26px rgba(10,23,40,0.32);
+  text-decoration:none;
+  transition:transform .18s ease, box-shadow .18s ease;
+}
+.wa-float:hover{ transform:scale(1.07); box-shadow:0 12px 30px rgba(10,23,40,0.4); }
+.wa-float svg{ width:29px; height:29px; }
+@media (max-width:640px){
+  .wa-float{ right:16px; bottom:16px; width:52px; height:52px; }
+  .wa-float svg{ width:26px; height:26px; }
+}
