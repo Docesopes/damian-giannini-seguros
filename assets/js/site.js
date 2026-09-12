@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!document.querySelector('.wa-float')) {
     const waLink = document.createElement('a');
     waLink.className = 'wa-float';
-    waLink.href = 'https://wa.me/5491136411895?text=Hola%20Dami%C3%A1n%2C%20quiero%20consultar%20sobre%20un%20seguro';
+    waLink.href = 'https://wa.me/5491136411895?text=Hola%20Dami%C3%A1n,%20quiero%20hacerte%20una%20consulta%20sobre%20seguros';
     waLink.target = '_blank';
     waLink.rel = 'noopener';
     waLink.setAttribute('aria-label', 'Escribir por WhatsApp');
