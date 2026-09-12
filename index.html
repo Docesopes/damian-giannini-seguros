@@ -399,21 +399,21 @@
     border:1px solid rgba(237,239,234,0.22);
     background:#FBFAF6;
     border-radius:3px;
-    width:198px;
-    height:108px;
+    min-width:130px;
+    height:112px;
     display:flex;
     align-items:center;
     justify-content:center;
-    padding:20px 26px;
+    padding:16px 24px;
   }
   .company-card img{
-    max-width:100%;
-    max-height:52px;
+    height:52px;
     width:auto;
-    height:auto;
+    max-width:240px;
     object-fit:contain;
     margin:0 auto;
   }
+  .company-card img.logo-boost{ height:74px; }
   .company-card.text-only .cname{
     font-family:var(--display);
     font-weight:500;
@@ -850,12 +850,12 @@
     { name: "San Cristóbal Seguros", img: "assets/logos/san-cristobal.png" },
     { name: "Meridional Seguros", img: "assets/logos/meridional.png" },
     { name: "ATM Seguros", img: "assets/logos/atm.jpg" },
-    { name: "Mercantil Andina", img: "assets/logos/mercantil-andina.png" }
+    { name: "Mercantil Andina", img: "assets/logos/mercantil-andina.png", boost: true }
   ];
   const track = document.getElementById('marqueeTrack');
   const buildCards = () => companies.map(c =>
     c.img
-      ? `<div class="company-card"><img src="${c.img}" alt="${c.name}" loading="lazy"></div>`
+      ? `<div class="company-card"><img class="${c.boost ? 'logo-boost' : ''}" src="${c.img}" alt="${c.name}" loading="lazy"></div>`
       : `<div class="company-card text-only"><div><div class="cname">${c.name}</div><div class="ctag">Compañía asociada</div></div></div>`
   ).join('');
   track.innerHTML = buildCards() + buildCards();
