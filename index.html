@@ -124,8 +124,12 @@
     letter-spacing:0.02em;
     color:#F2F4F0;
     text-decoration:none;
-    display:block;
+    display:flex;
+    align-items:center;
+    gap:10px;
   }
+  .brand img{ width:32px; height:32px; display:block; flex-shrink:0; }
+  .brand-text{ display:block; }
   .brand span{ color:#B9C4D4; font-family:var(--body); font-size:0.74rem; display:block; font-weight:400; margin-top:2px;}
 
   .nav-right{
@@ -568,7 +572,7 @@
     color:var(--ink-soft);
     margin-bottom:8px;
   }
-  .field input, .field textarea{
+  .field input, .field textarea, .field select{
     width:100%;
     border:none;
     border-bottom:1px solid var(--line);
@@ -579,11 +583,23 @@
     padding:8px 2px;
     transition:border-color .2s ease;
   }
-  .field input:focus, .field textarea:focus{
+  .field input:focus, .field textarea:focus, .field select:focus{
     outline:none;
     border-bottom:1.5px solid var(--seal);
   }
   .field textarea{ resize:vertical; min-height:90px; }
+  .field select{
+    appearance:none;
+    -webkit-appearance:none;
+    -moz-appearance:none;
+    cursor:pointer;
+    padding-right:26px;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' stroke='%237C8CA1' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;
+    background-position:right 4px center;
+    background-size:12px 8px;
+  }
+  .field select option{ color:var(--ink); background:var(--paper-card); }
 
   .tabs{
     display:flex;
@@ -749,7 +765,7 @@
 
 <nav class="site-nav">
   <div class="wrap site-nav-row">
-    <a class="brand" href="#top">Damián Giannini <span>Productor Asesor de Seguros</span></a>
+    <a class="brand" href="#top"><img src="assets/favicon.png" alt=""><span class="brand-text">Damián Giannini <span>Productor Asesor de Seguros</span></span></a>
     <div class="nav-right">
       <div class="nav-links">
         <a href="#coberturas">Coberturas</a>
@@ -968,15 +984,15 @@
           <input type="text" id="cp" name="codigo_postal" placeholder="Ej: 1425 o B1650" required>
         </div>
         <div class="field">
-          <label>Tipo de seguro</label>
-          <div class="tabs" id="tabGroup">
-            <button type="button" class="tab-btn" data-tipo="Auto">Auto</button>
-            <button type="button" class="tab-btn" data-tipo="Moto">Moto</button>
-            <button type="button" class="tab-btn" data-tipo="Comercio">Comercio</button>
-            <button type="button" class="tab-btn" data-tipo="Hogar">Hogar</button>
-            <button type="button" class="tab-btn" data-tipo="Otro">Otro</button>
-          </div>
-          <input type="hidden" id="tipoCobertura" name="tipo_cobertura" required>
+          <label for="tipoCobertura">Tipo de seguro</label>
+          <select id="tipoCobertura" name="tipo_cobertura" required>
+            <option value="" disabled selected>Elegí una opción</option>
+            <option value="Auto">Auto</option>
+            <option value="Moto">Moto</option>
+            <option value="Comercio">Comercio</option>
+            <option value="Hogar">Hogar</option>
+            <option value="Otro">Otro</option>
+          </select>
         </div>
       </div>
 
@@ -1190,55 +1206,49 @@
   ).join('');
   track.innerHTML = buildCards() + buildCards();
 
-  // ---- Tabs / conditional fields ----
-  const tabButtons = document.querySelectorAll('.tab-btn');
-  const tipoInput = document.getElementById('tipoCobertura');
+  // ---- Tipo de seguro (select) / conditional fields ----
+  const tipoSelect = document.getElementById('tipoCobertura');
   const fieldsVehiculo = document.getElementById('fieldsVehiculo');
   const fieldsMetros = document.getElementById('fieldsMetros');
   const fieldsOtro = document.getElementById('fieldsOtro');
 
-  tabButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      tabButtons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const tipo = btn.dataset.tipo;
-      tipoInput.value = tipo;
+  const applyTipo = (tipo) => {
+    fieldsVehiculo.classList.remove('visible');
+    fieldsMetros.classList.remove('visible');
+    fieldsOtro.classList.remove('visible');
+    document.getElementById('marcaModelo').required = false;
+    document.getElementById('anio').required = false;
+    document.getElementById('metros').required = false;
+    document.getElementById('otroTipo').required = false;
 
-      fieldsVehiculo.classList.remove('visible');
-      fieldsMetros.classList.remove('visible');
-      fieldsOtro.classList.remove('visible');
-      document.getElementById('marcaModelo').required = false;
-      document.getElementById('anio').required = false;
-      document.getElementById('metros').required = false;
-      document.getElementById('otroTipo').required = false;
+    if (tipo === 'Auto' || tipo === 'Moto') {
+      fieldsVehiculo.classList.add('visible');
+      document.getElementById('marcaModelo').required = true;
+      document.getElementById('anio').required = true;
+    } else if (tipo === 'Comercio' || tipo === 'Hogar') {
+      fieldsMetros.classList.add('visible');
+      document.getElementById('metros').required = true;
+    } else if (tipo === 'Otro') {
+      fieldsOtro.classList.add('visible');
+      document.getElementById('otroTipo').required = true;
+    }
+  };
 
-      if (tipo === 'Auto' || tipo === 'Moto') {
-        fieldsVehiculo.classList.add('visible');
-        document.getElementById('marcaModelo').required = true;
-        document.getElementById('anio').required = true;
-      } else if (tipo === 'Comercio' || tipo === 'Hogar') {
-        fieldsMetros.classList.add('visible');
-        document.getElementById('metros').required = true;
-      } else if (tipo === 'Otro') {
-        fieldsOtro.classList.add('visible');
-        document.getElementById('otroTipo').required = true;
-      }
-    });
-  });
+  tipoSelect.addEventListener('change', () => applyTipo(tipoSelect.value));
 
-  // ---- Preselect tab from URL (?tipo=Auto) when arriving from a coverage page ----
+  // ---- Preselect tipo from URL (?tipo=Auto) when arriving from a coverage page ----
   const urlTipo = new URLSearchParams(window.location.search).get('tipo');
-  if (urlTipo) {
-    const matchBtn = Array.from(tabButtons).find(b => b.dataset.tipo === urlTipo);
-    if (matchBtn) matchBtn.click();
+  if (urlTipo && Array.from(tipoSelect.options).some(o => o.value === urlTipo)) {
+    tipoSelect.value = urlTipo;
+    applyTipo(urlTipo);
   }
 
   // ---- "Otras coberturas" card: jump to form and preselect "Otro" ----
   const otrasCard = document.getElementById('otrasCoberturasCard');
   if (otrasCard) {
     otrasCard.addEventListener('click', () => {
-      const otroBtn = Array.from(tabButtons).find(b => b.dataset.tipo === 'Otro');
-      if (otroBtn) otroBtn.click();
+      tipoSelect.value = 'Otro';
+      applyTipo('Otro');
     });
   }
 
@@ -1251,7 +1261,7 @@
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    if (!tipoInput.value) {
+    if (!tipoSelect.value) {
       statusBox.textContent = "Antes de enviar, elegí qué tipo de seguro necesitás.";
       statusBox.className = "form-status show";
       return;
@@ -1272,7 +1282,6 @@
         statusBox.textContent = "¡Listo! Ya recibí tu consulta, te contacto por WhatsApp a la brevedad.";
         statusBox.className = "form-status show success";
         form.reset();
-        tabButtons.forEach(b => b.classList.remove('active'));
         fieldsVehiculo.classList.remove('visible');
         fieldsMetros.classList.remove('visible');
         fieldsOtro.classList.remove('visible');

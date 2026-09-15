@@ -59,7 +59,9 @@ button{font-family:inherit; cursor:pointer;}
   display:flex; justify-content:space-between; align-items:center;
   flex-wrap:wrap; gap:16px;
 }
-.brand{ font-family:var(--display); font-weight:500; font-size:1.1rem; text-decoration:none; letter-spacing:0.02em; color:#F2F4F0; }
+.brand{ font-family:var(--display); font-weight:500; font-size:1.1rem; text-decoration:none; letter-spacing:0.02em; color:#F2F4F0; display:flex; align-items:center; gap:10px; }
+.brand img{ width:30px; height:30px; display:block; flex-shrink:0; }
+.brand-text{ display:block; }
 .brand span{ color:#B9C4D4; font-family:var(--body); font-size:0.76rem; display:block; font-weight:400; margin-top:2px; }
 
 .nav-right{ display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
