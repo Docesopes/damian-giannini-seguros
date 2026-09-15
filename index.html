@@ -908,6 +908,21 @@
           </div>
         </div>
       </a>
+
+      <a class="coverage-card" href="#contacto" id="otrasCoberturasCard" aria-label="Consultar por otras coberturas">
+        <div class="coverage-card-inner">
+          <div class="coverage-card-front">
+            <div class="coverage-icon"><img src="assets/icons/otras.png" alt="" loading="lazy"></div>
+            <h3>Otras coberturas</h3>
+            <span class="tap-hint">Tocá para consultar</span>
+          </div>
+          <div class="coverage-card-back">
+            <h3>Otras coberturas</h3>
+            <p>Hay varias coberturas más que no entran en esta grilla. Contame qué necesitás asegurar y te armo una propuesta a medida.</p>
+            <span class="cta">Hacé tu consulta →</span>
+          </div>
+        </div>
+      </a>
     </div>
   </div>
 </section>
@@ -1216,6 +1231,15 @@
   if (urlTipo) {
     const matchBtn = Array.from(tabButtons).find(b => b.dataset.tipo === urlTipo);
     if (matchBtn) matchBtn.click();
+  }
+
+  // ---- "Otras coberturas" card: jump to form and preselect "Otro" ----
+  const otrasCard = document.getElementById('otrasCoberturasCard');
+  if (otrasCard) {
+    otrasCard.addEventListener('click', () => {
+      const otroBtn = Array.from(tabButtons).find(b => b.dataset.tipo === 'Otro');
+      if (otroBtn) otroBtn.click();
+    });
   }
 
   // ---- Form submit via FormSubmit (AJAX) ----
